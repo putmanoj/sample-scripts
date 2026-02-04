@@ -1,0 +1,17 @@
+---
+- name: Execute commands and print output
+  hosts: localhost
+  tasks:
+  - name: Execute the uptime command
+    shell: "uptime"
+    register: uptime_var
+    
+  - debug:
+      msg: "{{uptime_var.stdout}}"
+      
+  - name: Execute the date command
+    shell: "date"
+    register: date_var
+    
+  - debug:
+      msg: "{{date_var.stdout}}"

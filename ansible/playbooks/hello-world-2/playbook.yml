@@ -1,0 +1,11 @@
+---
+- name: Hello Word with vars
+  hosts: localhost
+  vars:
+    greetings: Hello World!
+    topic: Ansible Playbooks
+    
+  tasks:
+  - name: Ansible variable example
+    debug:
+      msg: "{{ greetings }} : {{ topic }}."

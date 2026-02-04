@@ -1,0 +1,8 @@
+---
+- name: A simple playbook file
+  hosts: localhost
+
+  tasks:
+  - name: Print a sample message
+    debug: 
+      msg: Hello World. Welcome to Ansible playbooks!

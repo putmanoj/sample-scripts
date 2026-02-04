@@ -1,0 +1,24 @@
+{
+  "template_input_params": [
+    {
+      "name": "name",
+      "description": "name",
+      "default": "World",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "name",
+      "hidden": false,
+      "immutable": false
+    }
+  ],
+  "template_output_params": [
+    {
+      "name": "greeting",
+      "label": "Greeting",
+      "description": "Hello ${name}",
+      "secured": false,
+      "hidden": false
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "name": "Hello World",
+  "description": "Hello World",
+  "type": "userCreated",
+  "version": "1.0",
+  "manifest": {
+    "template_type": "Terraform",
+    "template_format": "HCL",
+    "template_provider": "Other",
+    "template": {
+      "templateOutput": "",
+      "templateVariables": "",
+      "templateData": ""
+    },
+    "template_source": {
+      "githubRepoUrl": "",
+      "githubAccessToken": "",
+      "relativePathToTemplateFolder": "terraform/hello-world",
+      "templateFileName": "main.tf"
+    }
+  },
+  "metadata": {
+      "displayName": "Hello World",
+      "longDescription": "Hello World"
+  }
+}
