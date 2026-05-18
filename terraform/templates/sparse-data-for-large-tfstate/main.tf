@@ -10,7 +10,7 @@ variable "sparse_file_count" {
     default = "1"
 }
 
-variable "spare_data_multiple_count" {
+variable "sparse_data_multiple_count" {
   default = 1024
 }
 
@@ -19,7 +19,7 @@ resource "random_pet" "filename_suffix" {
 }
 
 locals {
-  sparse_file_path = "/tmp/sparse-${random_pet.filename_suffix.id}.txt"
+  sparse_file_path = "/tmp/sparse-${random_pet.filename_suffix.id}"
 }
 
 resource "null_resource" "generate_sparse_file" {
@@ -48,10 +48,12 @@ data "local_file" "sparse_file" {
 
 output "spare_data_once" {
   value = data.local_file.sparse_file.content
+  sensitive = true
 }
 
 output "spare_data_multiple" {
-  value = [for i in range(var.spare_data_multiple_count) : data.local_file.sparse_file.content]
+  value = [for i in range(var.sparse_data_multiple_count) : data.local_file.sparse_file.content]
+  sensitive = true
 }
 
 output "spare_filename" {
