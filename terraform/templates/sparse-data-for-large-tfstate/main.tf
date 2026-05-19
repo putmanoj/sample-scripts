@@ -54,10 +54,10 @@ data "local_file" "sparse_file" {
   ]
 }
 
-# output "spare_data_once" {
-#   value = data.local_file.sparse_file.content
-#   sensitive = true
-# }
+output "spare_data_once" {
+  value = data.local_file.sparse_file.content
+  sensitive = true
+}
 
 # output "spare_data_multiple" {
 #   value = [for i in range(var.sparse_data_multiple_output_count) : data.local_file.sparse_file.content]
