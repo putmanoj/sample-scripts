@@ -42,7 +42,7 @@ resource "null_resource" "generate_sparse_file" {
 
   provisioner "local-exec" {
     when    = destroy
-    command = "rm -v ${self.triggers.sparse_file_path} && echo Deleted!"
+    command = "rm -fv ${self.triggers.sparse_file_path} && echo Deleted!"
   }
 }
 
