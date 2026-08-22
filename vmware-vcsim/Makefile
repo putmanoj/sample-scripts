@@ -3,11 +3,14 @@ DEFAULT_SLEEP ?= 2s
 
 MAKEFLAGS += --no-print-directory
 
-default: start sleep2s ps vcsim-sdk logs
+default: run
 
 certs:
 	mkdir ./certs && \
 	openssl req -x509 -newkey rsa:2048 -nodes -keyout ./certs/server.key -out ./certs/server.crt -days 365 -subj "/CN=127.0.0.1" -addext "subjectAltName = IP:127.0.0.1"
+
+run: certs
+	docker compose up --remove-orphans
 
 start: certs
 	docker compose up -d --remove-orphans
