@@ -10,6 +10,7 @@ terraform {
 
 provider "vsphere" {
   # Run 'source ../vsphere-env.sh', to configure the vSphere Provider
+  allow_unverified_ssl = true
 }
 
 variable "dc_name" {
