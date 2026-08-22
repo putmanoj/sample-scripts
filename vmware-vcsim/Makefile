@@ -3,7 +3,7 @@ DEFAULT_SLEEP ?= 2s
 
 MAKEFLAGS += --no-print-directory
 
-default: start sleep2s ps vcsim-sdk
+default: start sleep2s ps vcsim-sdk logs
 
 certs:
 	mkdir ./certs && \
