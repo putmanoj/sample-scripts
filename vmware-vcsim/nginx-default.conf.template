@@ -3,14 +3,18 @@
 include /etc/nginx/conf.d/whitelist_domains.conf;
 
 server {
-    listen 80 default_server;
+    # Parameterised HTTP Server Port
+    listen ${VSPHERE_PROXY_HTTP_PORT} default_server;
     server_name _;
+    
+    # FIXED: Explicitly appends your custom HTTPS port to the redirect target string
     # Redirect all external HTTP traffic to HTTPS
-    return 301 https://$host$request_uri;
+    return 301 https://$host:${VSPHERE_PROXY_HTTPS_PORT}$request_uri;
 }
 
 server {
-    listen 443 ssl default_server;
+    # Parameterised HTTPS Server Port
+    listen ${VSPHERE_PROXY_HTTPS_PORT} ssl default_server;
 
     # Catch-all: accepts host IP, local network IP, or domain names
     server_name _;
@@ -51,6 +55,7 @@ server {
     }
 
     # Apply the same timeout configurations to /rest, /pbm, and /api blocks
+
     location /rest {
         proxy_pass https://vcsim-service:8989;
         proxy_ssl_verify off;

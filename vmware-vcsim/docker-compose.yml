@@ -6,22 +6,28 @@ services:
     image: nginx:alpine
     container_name: nginx-proxy
     ports:
-      - "80:80"
-      - "443:443"
+      # Exposes your custom host ports to the matching internal container ports
+      - "${VSPHERE_PROXY_HTTP_PORT}:${VSPHERE_PROXY_HTTP_PORT}"
+      - "${VSPHERE_PROXY_HTTPS_PORT}:${VSPHERE_PROXY_HTTPS_PORT}"
+    environment:
+      # Hands off variables from your local .env file straight into the NGINX template engine
+      - VSPHERE_PROXY_HTTP_PORT=${VSPHERE_PROXY_HTTP_PORT}
+      - VSPHERE_PROXY_HTTPS_PORT=${VSPHERE_PROXY_HTTPS_PORT}
     volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./whitelist_ips.conf:/etc/nginx/conf.d/whitelist_ips.conf:ro
-      - ./whitelist_domains.conf:/etc/nginx/conf.d/whitelist_domains.conf:ro
-      - ./index.html:/usr/share/nginx/html/index.html:ro
+      # Mount your config file to the templates directory to trigger the auto-substitution
+      - ./nginx-default.conf.template:/etc/nginx/templates/default.conf.template:ro
+
+      - ./nginx-whitelist_ips.conf:/etc/nginx/conf.d/whitelist_ips.conf:ro
+      - ./nginx-whitelist_domains.conf:/etc/nginx/conf.d/whitelist_domains.conf:ro
+      - ./nginx-index.html:/usr/share/nginx/html/index.html:ro
       - ./certs:/etc/nginx/ssl:ro
     depends_on:
       - vcsim-service
     restart: always
 
-  # API Container 3: VMware vCenter Simulator
+  # VMware vCenter Simulator
   vcsim-service:
     image: vmware/vcsim:latest
     container_name: vmware-vcsim
-    # Crucial: Tells vcsim to accept external network traffic on port 8989
     command: ["-l", ":8989"]
     restart: always
