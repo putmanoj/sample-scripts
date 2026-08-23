@@ -25,9 +25,9 @@ services:
       - vcsim-service
     restart: always
 
-  # VMware vCenter Simulator
+  # VMware vCenter Server 8.0 Simulator
   vcsim-service:
     image: vmware/vcsim:latest
     container_name: vmware-vcsim
-    command: ["-l", ":8989"]
+    command: ["-l", ":8989", "-api-version", "8.0"]
     restart: always
