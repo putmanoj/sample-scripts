@@ -1,24 +1,41 @@
 # vmware-vcsim
-
 VMWare VC simulator
 
-
-## Configuring vSphere provider env vars
-
+## Getting started
 ```bash
-export VSPHERE_USER="administrator@vsphere.local"
-export VSPHERE_PASSWORD="SecurePassword"
+## Start in non-detached ( ctrl+c to stop )
+% make
+
+## Start in detached mode, run in back-ground
+% make start
+
+## Save current vcsim state (saved to ./vcsim-data/saved-state)
+% make vcsim-data-save
+
+## Stop vcsim running in back-ground (the current vcsim state will be saved before stop)
+% make stop
+```
+
+## Using with Terraform vSphere provider
+
+### Configure the Environment
+```bash
+export VSPHERE_USER="user"
+export VSPHERE_PASSWORD="pass"
 export VSPHERE_SERVER="localhost:4443"
 export VSPHERE_ALLOW_UNVERIFIED_SSL="true"
 ```
 
 ## Using the Go vSphere CLI companion tool: govc
 
+### Configure the Environment
 ```bash
-## Configure the Environment
 export GOVC_URL="https://user:pass@127.0.0.1:4443/sdk";
 export GOVC_INSECURE=true;
+```
 
+### govc examples
+```bash
 ## Find all simulated VMs
 govc find / -type m
 
@@ -86,3 +103,4 @@ govc vm.change -vm vm/my-new-vm -e SET.overallStatus=red
 govc object.collect -s vm/my-new-vm overallStatus
 # red
 ```
+

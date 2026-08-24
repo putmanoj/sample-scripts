@@ -61,7 +61,8 @@ vcsim-logs:
 	docker compose logs -f vcsim-service
 
 # if vcsim-data/saved-state not exists, then copy vcsim-data/base-state
-vcsim-data/saved-state: vcsim-data/base-state
+vcsim-data/saved-state:
+	$(MAKE) vcsim-data/base-state
 	cp -r ./vcsim-data/base-state ./vcsim-data/saved-state
 
 # create create-base-vcsim-data vcsim-service startup
