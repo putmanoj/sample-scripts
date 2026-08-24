@@ -13,20 +13,19 @@ MAKEFLAGS += --no-print-directory
 default: run
 
 certs:
-	mkdir ./certs && \
-	openssl req -x509 -newkey rsa:2048 -nodes -keyout ./certs/server.key -out ./certs/server.crt -days 365 -subj "/CN=127.0.0.1" -addext "subjectAltName = IP:127.0.0.1"
+	./makefile-helper.sh certs
 
 # non-detached mode
-run: certs
+run: certs vcsim-data/saved-state
 	docker compose up --force-recreate --remove-orphans
 	@$(MAKE) stop
 
 # detached mode: start containers in the background
-start: certs
+start: certs vcsim-data/saved-state
 	docker compose up -d --remove-orphans
 
 # remove containers running in the background
-stop:
+stop: vcsim-data-save
 	docker compose down
 
 ps:
@@ -60,3 +59,15 @@ vcsim-sdk:
 
 vcsim-logs:
 	docker compose logs -f vcsim-service
+
+# if vcsim-data/saved-state not exists, then copy vcsim-data/base-state
+vcsim-data/saved-state: vcsim-data/base-state
+	cp -r ./vcsim-data/base-state ./vcsim-data/saved-state
+
+# create create-base-vcsim-data vcsim-service startup
+vcsim-data/base-state:
+	./makefile-helper.sh create-base-vcsim-data
+
+# save current data from vcsim-service
+vcsim-data-save:
+	./makefile-helper.sh save-vcsim-data

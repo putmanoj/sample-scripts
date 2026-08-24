@@ -1,4 +1,4 @@
-version: '3.8'
+# version: '3.8'
 
 services:
   # NGINX Reverse Proxy Face
@@ -29,5 +29,6 @@ services:
   vcsim-service:
     image: vmware/vcsim:latest
     container_name: vmware-vcsim
-    command: ["-l", ":8989", "-api-version", "8.0"]
-    restart: always
+    command: ["-l", ":8989", "-api-version", "8.0", "-load", "/data/vcsim/saved-state"]
+    volumes:
+      - ./vcsim-data:/data/vcsim
