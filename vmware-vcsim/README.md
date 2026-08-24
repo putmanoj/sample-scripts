@@ -37,70 +37,103 @@ export GOVC_INSECURE=true;
 ### govc examples
 ```bash
 ## Find all simulated VMs
-govc find / -type m
+% govc find / -type m
 
 ## Find all simulated DataCenter/s
-govc find / -type d
+% govc find / -type d
 
 ## List just the VM names (clean list)
-govc ls /DC0/vm
+% govc ls /DC0/vm
 
 ## Find Resource Pool
-govc find / -type ResourcePool
-# /DC0/host/DC0_H0/Resources
-# /DC0/host/DC0_C0/Resources
+% govc find / -type ResourcePool
+
+/DC0/host/DC0_H0/Resources
+/DC0/host/DC0_C0/Resources
 
 ## Find the Exact Network Path
-govc find / -type Network
-# /DC0/network/VM Network
-# /DC0/network/DVS0-DVUplinks-8
-# /DC0/network/DC0_DVPG0
-# /My-Datacenter-1/network/VM Network
+% govc find / -type Network
+
+/DC0/network/VM Network
+/DC0/network/DVS0-DVUplinks-8
+/DC0/network/DC0_DVPG0
+/My-Datacenter-1/network/VM Network
 
 ## Create VM
-export GOVC_DATACENTER="DC0"; \
-govc vm.create \
-  -pool="/DC0/host/DC0_C0/Resources" \
-  -net="/DC0/network/DC0_DVPG0" \
-  -m 4096 \
-  -c 2 \
-  -g ubuntu64Guest \
-  -disk "20GB" \
-  -net.adapter vmxnet3 \
-  -disk.controller pvscsi \
-  -on=false \
-  my-new-vm
+% export GOVC_DATACENTER="DC0"
+% govc vm.create \
+    -pool="/DC0/host/DC0_C0/Resources" \
+    -net="/DC0/network/DC0_DVPG0" \
+    -m 4096 \
+    -c 2 \
+    -g ubuntu64Guest \
+    -disk "20GB" \
+    -net.adapter vmxnet3 \
+    -disk.controller pvscsi \
+    -on=false \
+    my-new-vm
 
 ## Fetch Extended VM Details
 ## govc object.collect /DC0/vm/<VM> name summary.config.guestIdCode summary.runtime.powerState
-govc object.collect /DC0/vm/my-new-vm name summary.config.guestIdCode summary.runtime.powerState
-# name                        string                          my-new-vm
-# summary.runtime.powerState  types.VirtualMachinePowerState  poweredOff
+% govc object.collect /DC0/vm/my-new-vm name summary.config.guestIdCode summary.runtime.powerState
+
+name                        string                          my-new-vm
+summary.runtime.powerState  types.VirtualMachinePowerState  poweredOff
 
 # Power off VM
-govc vm.power -off my-new-vm
-# Powering off VirtualMachine:vm-87... OK
+% govc vm.power -off my-new-vm
+
+Powering off VirtualMachine:vm-87... OK
 
 # Customize VM
-govc vm.customize -vm my-new-vm -name fourtythree -ip 10.0.0.43
+% govc vm.customize -vm my-new-vm -name fourtythree -ip 10.0.0.43
 
 # Power on VM
-govc vm.power -on my-new-vm
-# Powering on VirtualMachine:vm-87... OK
+% govc vm.power -on my-new-vm
 
-govc object.collect -s vm/my-new-vm guest.ipAddress guest.hostName
-# 10.0.0.43
-# fourtythree
+Powering on VirtualMachine:vm-87... OK
 
-govc vm.ip my-new-vm
-# 10.0.0.43
+% govc object.collect -s vm/my-new-vm guest.ipAddress guest.hostName
 
-govc object.collect -s vm/my-new-vm overallStatus
-# green
+10.0.0.43
+fourtythree
 
-govc vm.change -vm vm/my-new-vm -e SET.overallStatus=red
+% govc vm.ip my-new-vm
 
-govc object.collect -s vm/my-new-vm overallStatus
-# red
+10.0.0.43
+
+% govc object.collect -s vm/my-new-vm overallStatus
+
+green
+
+% govc vm.change -vm vm/my-new-vm -e SET.overallStatus=red
+
+% govc object.collect -s vm/my-new-vm overallStatus
+
+red
+
 ```
 
+### govc - create template
+```bash
+export GOVC_DATACENTER="DC0";
+export GOVC_RESOURCE_POOL="/DC0/host/DC0_C0/Resources";
+
+## Create VM
+% govc vm.create -on=false -m=2048 -c=2 -net="VM Network" ubuntu-template
+
+## Convert VM into Template 
+% govc vm.markastemplate ubuntu-template
+
+## Verify Template
+% govc vm.info ubuntu-template | grep -i template
+
+Name:           ubuntu-template
+  Path:         /DC0/vm/ubuntu-template
+
+## Testing Deployment
+% govc vm.clone -vm ubuntu-template newly-deployed-vm
+
+[24-08-26 19:17:12] Cloning /DC0/vm/ubuntu-template to newly-deployed-vm...OK
+
+```
