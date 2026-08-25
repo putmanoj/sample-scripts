@@ -100,6 +100,50 @@ function save-vcsim-data() {
 	cleanup
 }
 
+# Start(in non-detached mode) -> Stop 
+function run1() {
+	docker compose up --force-recreate --remove-orphans
+	docker compose down
+}
+
+# Start(in detached mode) -> Show logs -> Save(current vcsim state) on Ctrl+C -> Stop 
+function run2() {
+	echo -e "\n[Start] services"
+	docker compose up -d --remove-orphans
+	sleep 3s
+
+	# 1. Trap Ctrl+C (SIGINT) so the script stays alive when Docker is stopped
+	trap 'true' SIGINT
+
+	echo "Streaming logs. Press Ctrl+C to stop and trigger Command 2..."
+	echo "------------------------------------------------------------------------"
+
+	# 2. Run docker logs directly to the terminal
+	docker compose logs -f
+	local EXIT_CODE=$?
+
+	# 3. Reset the trap back to default behavior
+	trap - SIGINT
+
+	# 4. Check if Docker was explicitly stopped by Ctrl+C (Exit code 130)
+	if [ $EXIT_CODE -eq 130 ]; then
+		echo -e "\n\n[Ctrl+C Detected] Log stream stopped."
+		
+		# --- Save current state ---
+		echo -e "\n[Save] current vcsim state ..."
+		save-vcsim-data
+		
+	elif [ $EXIT_CODE -ne 0 ]; then
+		echo -e "\n[Error] Docker logs failed or service stopped (Exit code: $EXIT_CODE)."
+		echo "Docker logs will NOT run."
+	else
+		echo -e "\nDocker logs finished streaming cleanly on its own."
+	fi
+
+	echo -e "\n[Stop] services"
+	docker compose down
+} 
+
 DEFAULT_FUNC=save-vcsim-data
 
 if [ ! -z "$1" ];

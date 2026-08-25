@@ -17,8 +17,7 @@ certs:
 
 # non-detached mode
 run: certs vcsim-data/saved-state
-	docker compose up --force-recreate --remove-orphans
-	@$(MAKE) stop
+	./makefile-helper.sh run2
 
 # detached mode: start containers in the background
 start: certs vcsim-data/saved-state
