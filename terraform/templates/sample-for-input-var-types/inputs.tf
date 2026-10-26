@@ -33,13 +33,13 @@ variable "a_date" {
   }
 }
 
-variable "a_timestamp" {
-  description = "A timestamp"
+variable "a_timestamp_required" {
+  description = "A timestamp, a value is required"
   type        = string
 
   validation {
-    condition     = can(regex("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$", var.a_timestamp)) && can(formatdate("YYYY", var.a_timestamp))
-    error_message = "The a_timestamp value must be a valid UTC timestamp in RFC 3339 format (e.g. 2026-12-31T23:59:59Z)."
+    condition     = can(regex("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$", var.a_timestamp_required)) && can(formatdate("YYYY", var.a_timestamp_required))
+    error_message = "The a_timestamp_required value must be a valid UTC timestamp in RFC 3339 format (e.g. 2026-12-31T23:59:59Z)."
   }  
 }
 
