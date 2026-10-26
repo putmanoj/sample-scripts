@@ -1,25 +1,25 @@
 variable "a_string" {
   description = "This a string type, with default value"
-  type = string
-  default = "World"
+  type        = string
+  default     = "World"
 }
 
 variable "a_string_required" {
   description = "This a string type, value is required, though can have null value"
-  type = string
+  type        = string
 }
 
 variable "a_string_not_nullable" {
   description = "This a string type, cannot have null value, value is required"
-  type = string
-  nullable = false
+  type        = string
+  nullable    = false
 }
 
 variable "a_string_with_sensitive_value" {
   description = "This a string type, with sensitive value"
-  type = string
-  sensitive = true
-  default = "The Secret"
+  type        = string
+  sensitive   = true
+  default     = "The Secret"
 }
 
 variable "a_date" {
@@ -40,7 +40,7 @@ variable "a_timestamp_required" {
   validation {
     condition     = can(regex("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$", var.a_timestamp_required)) && can(formatdate("YYYY", var.a_timestamp_required))
     error_message = "The a_timestamp_required value must be a valid UTC timestamp in RFC 3339 format (e.g. 2026-12-31T23:59:59Z)."
-  }  
+  }
 }
 
 locals {
@@ -49,52 +49,52 @@ locals {
 
 variable "a_number" {
   description = "This a number type, with default value"
-  type	= number
-  default = 10
+  type        = number
+  default     = 10
 }
 
 variable "a_number_required" {
   description = "This a number type, value is required to provider from user"
-  type	= number
+  type        = number
 }
 
 variable "a_bool" {
   description = "This a boolean type, with default value"
-  type	= bool
-  default = true
+  type        = bool
+  default     = true
 }
 
 variable "a_bool_required" {
   description = "This a boolean type, value is required to provider from user"
-  type	= bool
+  type        = bool
 }
 
 variable "list_of_strings" {
-  type	= list(string)
+  type    = list(string)
   default = ["micro", "large", "xlarge"]
 }
 
 variable "list_of_strings_required" {
   description = "This a boolean type, with default value"
-  type	= list(string)
+  type        = list(string)
 }
 
 variable "list_of_any_types" {
   description = "This a list type, value is not required, can have null value"
-  type	= list
-  default = null
+  type        = list(any)
+  default     = null
 }
 
 variable "list_of_any_types_not_nullable" {
   description = "This a list type, cannot null value, value is required,"
-  type	= list(any)
-  nullable = false
+  type        = list(any)
+  nullable    = false
 }
 
 variable "map_with_string" {
   type = map(string)
   default = {
-    name      = "demo"
+    name        = "demo"
     environment = "dev"
   }
 }
@@ -114,12 +114,12 @@ variable "a_object" {
 
 variable "a_object_with_optional_attribute" {
   type = object({
-    user_id = string             # a required attribute
-    email = optional(string)     # an optional attribute
-    score = optional(number, 1)  # an optional attribute with default value
+    user_id = string              # a required attribute
+    email   = optional(string)    # an optional attribute
+    score   = optional(number, 1) # an optional attribute with default value
   })
   default = {
-    user_id  = "josh"
+    user_id = "josh"
   }
 }
 
@@ -161,28 +161,28 @@ variable "list_of_object_with_nested_structures" {
         ]
         EOT
       }
-    },    
+    },
     {
       "enabled" = false
-      "name" = "archived"
+      "name"    = "archived"
     }
   ]
 }
 
 variable "set_of_strings" {
   description = "The set type, holding unordered set of unique values"
-  type	= set(string)
-  default = ["sg-12345678", "sg-abcdefgh"]
+  type        = set(string)
+  default     = ["sg-12345678", "sg-abcdefgh"]
 }
 
 variable "tuple_of_strings" {
   description = "The tuple of all string types, which are immutable"
-  type	= tuple([string, string])
-  default = ["192.168.1.1", "192.168.1.2"]
+  type        = tuple([string, string])
+  default     = ["192.168.1.1", "192.168.1.2"]
 }
 
 variable "tuple_of_all_primitive_types" {
   description = "The tuple with three different types, which are immutable"
-  type	= tuple([string, number, bool])
-  default = ["a", 15, true]
+  type        = tuple([string, number, bool])
+  default     = ["a", 15, true]
 }

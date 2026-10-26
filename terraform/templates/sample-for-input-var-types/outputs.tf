@@ -1,14 +1,14 @@
 output "secret" {
-  value = var.a_string_with_sensitive_value
+  value     = var.a_string_with_sensitive_value
   sensitive = true
 }
 
 output "my_secret" {
- value = nonsensitive(var.a_string_with_sensitive_value)
+  value = nonsensitive(var.a_string_with_sensitive_value)
 }
 
 output "all_values" {
-  value = null_resource.null_resource_simple.triggers
+  value = null_resource.null_resource_all_values.triggers
 }
 
 output "a_string" {
@@ -24,7 +24,7 @@ output "a_string_not_nullable" {
 }
 
 output "a_string_with_sensitive_value" {
-  value = var.a_string_with_sensitive_value
+  value     = var.a_string_with_sensitive_value
   sensitive = true
 }
 
