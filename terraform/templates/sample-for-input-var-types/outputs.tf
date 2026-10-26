@@ -28,6 +28,18 @@ output "a_string_with_sensitive_value" {
   sensitive = true
 }
 
+output "a_date" {
+  value = var.a_date
+}
+
+output "a_timestamp" {
+  value = var.a_timestamp
+}
+
+output "a_timestamp_now" {
+  value = local.a_timestamp_now
+}
+
 output "a_number" {
   value = var.a_number
 }

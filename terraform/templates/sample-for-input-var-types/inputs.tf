@@ -22,6 +22,31 @@ variable "a_string_with_sensitive_value" {
   default = "The Secret"
 }
 
+variable "a_date" {
+  description = "A date in YYYY-MM-DD format"
+  type        = string
+  default     = "2026-12-31"
+
+  validation {
+    condition     = can(regex("^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$", var.a_date))
+    error_message = "The a_date value must be in YYYY-MM-DD format (e.g. 2026-12-31)."
+  }
+}
+
+variable "a_timestamp" {
+  description = "A timestamp"
+  type        = string
+
+  validation {
+    condition     = can(regex("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$", var.a_timestamp)) && can(formatdate("YYYY", var.a_timestamp))
+    error_message = "The a_timestamp value must be a valid UTC timestamp in RFC 3339 format (e.g. 2026-12-31T23:59:59Z)."
+  }  
+}
+
+locals {
+  a_timestamp_now = timestamp()
+}
+
 variable "a_number" {
   description = "This a number type, with default value"
   type	= number
