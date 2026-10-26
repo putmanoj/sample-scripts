@@ -1,12 +1,3 @@
-output "secret" {
-  value     = var.a_string_with_sensitive_value
-  sensitive = true
-}
-
-output "my_secret" {
-  value = nonsensitive(var.a_string_with_sensitive_value)
-}
-
 output "all_values" {
   value = null_resource.null_resource_all_values.triggers
 }
@@ -26,6 +17,10 @@ output "a_string_not_nullable" {
 output "a_string_with_sensitive_value" {
   value     = var.a_string_with_sensitive_value
   sensitive = true
+}
+
+output "a_string_with_sensitive_value_made_nonsensitive" {
+  value = nonsensitive(var.a_string_with_sensitive_value)
 }
 
 output "a_date" {
