@@ -41,7 +41,7 @@ output "a_bool" {
 }
 
 output "a_bool_required" {
-  value = var.a_number_required
+  value = var.a_bool_required
 }
 
 output "list_of_strings" {
