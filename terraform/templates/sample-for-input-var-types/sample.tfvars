@@ -1,6 +1,5 @@
 a_string_required              =null
 a_string_not_nullable          ="abc"
-a_timestamp_required           ="2026-12-31T23:59:59Z"
 a_number_required              =123.45
 a_bool_required                =true
 list_of_strings_required       =["east","west"]

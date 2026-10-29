@@ -27,8 +27,8 @@ output "a_date" {
   value = var.a_date
 }
 
-output "a_timestamp_required" {
-  value = var.a_timestamp_required
+output "a_timestamp" {
+  value = var.a_timestamp
 }
 
 output "a_timestamp_now" {

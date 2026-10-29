@@ -9,7 +9,7 @@ resource "null_resource" "null_resource_all_values" {
     a_string_not_nullable                      = var.a_string_not_nullable
     a_string_with_sensitive_value_nonsensitive = nonsensitive(var.a_string_with_sensitive_value)
     a_date                                     = var.a_date
-    a_timestamp_required                       = var.a_timestamp_required
+    a_timestamp                                = var.a_timestamp
     a_number                                   = var.a_number
     a_number_required                          = var.a_number_required
     a_bool                                     = var.a_bool
